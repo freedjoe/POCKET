@@ -21,7 +21,7 @@ func SendAdminPasswordReset(app core.App, admin *models.Admin) error {
 	}
 
 	actionUrl, urlErr := rest.NormalizeUrl(fmt.Sprintf(
-		"%s/_/#/confirm-password-reset/%s",
+		"%s/admin/#/confirm-password-reset/%s",
 		app.Settings().Meta.AppUrl,
 		token,
 	))
