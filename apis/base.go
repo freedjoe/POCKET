@@ -15,7 +15,7 @@ import (
 	"github.com/labstack/echo/v5/middleware"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/tools/rest"
-	"github.com/pocketbase/pocketbase/ui"
+	ui "github.com/pocketbase/pocketbase/ui/admin"
 	"github.com/spf13/cast"
 )
 
