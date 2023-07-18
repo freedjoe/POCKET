@@ -1,7 +1,27 @@
+## v0.16.10
+
+- Added multiple valued fields (`relation`, `select`, `file`) normalizations to ensure that the zero-default value of a newly created multiple field is applied for already existing data ([#2930](https://github.com/pocketbase/pocketbase/issues/2930)).
+
+
+## v0.16.9
+
+- Register the `eagerRequestDataCache` middleware only for the internal `api` group routes to avoid conflicts with custom route handlers ([#2914](https://github.com/pocketbase/pocketbase/issues/2914)).
+
+
+## v0.16.8
+
+- Fixed unique validator detailed error message not being returned when camelCase field name is used ([#2868](https://github.com/pocketbase/pocketbase/issues/2868)).
+
+- Updated the index parser to allow no space between the table name and the columns list ([#2864](https://github.com/pocketbase/pocketbase/discussions/2864#discussioncomment-6373736)).
+
+- Updated go deps.
+
+
 ## v0.16.7
 
-- Minor optimiaztion for the list/search queries to use `rowid` with the `COUNT` statement when available.
+- Minor optimization for the list/search queries to use `rowid` with the `COUNT` statement when available.
   _This eliminates the temp B-TREE step when executing the query and for large datasets (eg. 150k) it could have 10x improvement (from ~580ms to ~60ms)._
+
 
 ## v0.16.6
 
@@ -13,11 +33,13 @@
 
 - Upgraded npm and Go dependencies.
 
+
 ## v0.16.5
 
 - Fixed the Admin UI serialization of implicit relation display fields ([#2675](https://github.com/pocketbase/pocketbase/issues/2675)).
 
 - Reset the Admin UI sort in case the active sort collection field is renamed or deleted.
+
 
 ## v0.16.4
 
@@ -28,11 +50,13 @@
 
 - Updated dependencies.
 
+
 ## v0.16.3
 
 - Fixed schema fields sort not working on Safari/Gnome Web ([#2567](https://github.com/pocketbase/pocketbase/issues/2567)).
 
 - Fixed default `PRAGMA`s not being applied for new connections ([#2570](https://github.com/pocketbase/pocketbase/discussions/2570)).
+
 
 ## v0.16.2
 
@@ -43,6 +67,7 @@
 - Auto register the initial generated snapshot migration to prevent incorrectly reapplying the snapshot on Docker restart ([#2551](https://github.com/pocketbase/pocketbase/discussions/2551)).
 
 - Fixed missing view id field error message typo.
+
 
 ## v0.16.1
 
@@ -60,6 +85,7 @@
 
 - Fixed file field drag and drop not working in Firefox and Safari ([#2541](https://github.com/pocketbase/pocketbase/issues/2541)).
 
+
 ## v0.16.0
 
 - Added automated backups (_+ cron rotation_) APIs and UI for the `pb_data` directory.
@@ -69,20 +95,18 @@
 
 - Added option to limit the returned API fields using the `?fields` query parameter.
   The "fields picker" is applied for `SearchResult.Items` and every other JSON response. For example:
-
   ```js
   // original: {"id": "RECORD_ID", "name": "abc", "description": "...something very big...", "items": ["id1", "id2"], "expand": {"items": [{"id": "id1", "name": "test1"}, {"id": "id2", "name": "test2"}]}}
   // output:   {"name": "abc", "expand": {"items": [{"name": "test1"}, {"name": "test2"}]}}
   const result = await pb.collection("example").getOne("RECORD_ID", {
     expand: "items",
     fields: "name,expand.items.name",
-  });
+  })
   ```
 
 - Added new `./pocketbase update` command to selfupdate the prebuilt executable (with option to generate a backup of your `pb_data`).
 
 - Added new `./pocketbase admin` console command:
-
   ```sh
   // creates new admin account
   ./pocketbase admin create test@example.com 123456890
@@ -118,6 +142,7 @@
 
 - Added `meta.isNew` to the OAuth2 auth JSON response to indicate a newly OAuth2 created PocketBase user.
 
+
 ## v0.15.3
 
 - Updated the Admin UI to use the latest JS SDK to resolve the `isNew` record field conflict ([#2385](https://github.com/pocketbase/pocketbase/discussions/2385)).
@@ -126,6 +151,7 @@
 
 - Inserts the default app settings as part of the system init migration so that they are always available when accessed from within a user defined migration ([#2423](https://github.com/pocketbase/pocketbase/discussions/2423)).
 
+
 ## v0.15.2
 
 - Fixed View query `SELECT DISTINCT` identifiers parsing ([#2349-5706019](https://github.com/pocketbase/pocketbase/discussions/2349#discussioncomment-5706019)).
@@ -133,6 +159,7 @@
 - Fixed View collection schema incorrectly resolving multiple aliased fields originating from the same field source ([#2349-5707675](https://github.com/pocketbase/pocketbase/discussions/2349#discussioncomment-5707675)).
 
 - Added OAuth2 redirect fallback message to notify the user to go back to the app in case the browser window is not auto closed.
+
 
 ## v0.15.1
 
@@ -147,6 +174,7 @@
 - Reduced the record form vertical layout shifts and slightly improved the rendering speed when loading multiple `relation` fields.
 
 - Enabled Admin UI assets cache.
+
 
 ## v0.15.0
 
@@ -172,15 +200,18 @@
 
 - Refreshed the OAuth2 Admin UI.
 
+
 ## v0.14.5
 
 - Added checks for `nil` hooks in `forms.RecordUpsert` when used with custom `Dao` ([#2277](https://github.com/pocketbase/pocketbase/issues/2277)).
 
 - Fixed unique detailed field error not returned on record create failure ([#2287](https://github.com/pocketbase/pocketbase/discussions/2287)).
 
+
 ## v0.14.4
 
 - Fixed concurrent map write pannic on `list.ExistInSliceWithRegex()` cache ([#2272](https://github.com/pocketbase/pocketbase/issues/2272)).
+
 
 ## v0.14.3
 
@@ -190,9 +221,11 @@
 
 - Upgraded the GitHub action to use [min Go 1.20.3](https://github.com/golang/go/issues?q=milestone%3AGo1.20.3+label%3ACherryPickApproved) for the prebuilt executable since it contains some minor `net/http` security fixes.
 
+
 ## v0.14.2
 
 - Reverted part of the old `COALESCE` handling as a fallback to support empty string comparison with missing joined relation fields.
+
 
 ## v0.14.1
 
@@ -203,6 +236,7 @@
 - Updated TinyMCE to v6.4.1.
 
 - Updated the godoc of `Dao.Save*` methods.
+
 
 ## v0.14.0
 
@@ -237,12 +271,11 @@
 - Added `migrate history-sync` command to clean `_migrations` history table from deleted migration files references.
 
 - Added new fields to the `core.RecordAuthWithOAuth2Event` struct:
-
-  ```
-  IsNewRecord     bool,          // boolean field indicating whether the OAuth2 action created a new auth record
-  ProviderName    string,        // the name of the OAuth2 provider (eg. "google")
-  ProviderClient  auth.Provider, // the loaded Provider client instance
-  ```
+    ```
+    IsNewRecord     bool,          // boolean field indicating whether the OAuth2 action created a new auth record
+    ProviderName    string,        // the name of the OAuth2 provider (eg. "google")
+    ProviderClient  auth.Provider, // the loaded Provider client instance
+    ```
 
 - Added CGO linux target for the prebuilt executable.
 
@@ -259,9 +292,11 @@
 
 - Other minor UI improvements.
 
+
 ## v0.13.4
 
 - Removed eager unique collection name check to support lazy validation during bulk import.
+
 
 ## v0.13.3
 
@@ -269,18 +304,20 @@
 
 - Updated the records picker Admin UI to show properly view collection relations.
 
+
 ## v0.13.2
 
 - Fixed Admin UI js error when selecting multiple `file` field as `relation` "Display fields" ([#1989](https://github.com/pocketbase/pocketbase/issues/1989)).
+
 
 ## v0.13.1
 
 - Added `HEAD` request method support for the `/api/files/:collection/:recordId/:filename` route ([#1976](https://github.com/pocketbase/pocketbase/discussions/1976)).
 
+
 ## v0.13.0
 
 - Added new "View" collection type allowing you to create a read-only collection from a custom SQL `SELECT` statement. It supports:
-
   - aggregations (`COUNT()`, `MIN()`, `MAX()`, `GROUP BY`, etc.)
   - column and table aliases
   - CTEs and subquery expressions
@@ -314,24 +351,23 @@
 
 - **!** Changed `To`, `Cc` and `Bcc` of `mailer.Message` to `[]mail.Address` for consistency and to allow multiple recipients and optional name.
 
-  If you are sending custom emails, you'll have to replace:
+    If you are sending custom emails, you'll have to replace:
+    ```go
+    message := &mailer.Message{
+      ...
 
-  ```go
-  message := &mailer.Message{
-    ...
+      // (old) To: mail.Address{Address: "to@example.com"}
+      To: []mail.Address{{Address: "to@example.com", Name: "Some optional name"}},
 
-    // (old) To: mail.Address{Address: "to@example.com"}
-    To: []mail.Address{{Address: "to@example.com", Name: "Some optional name"}},
+      // (old) Cc: []string{"cc@example.com"}
+      Cc: []mail.Address{{Address: "cc@example.com", Name: "Some optional name"}},
 
-    // (old) Cc: []string{"cc@example.com"}
-    Cc: []mail.Address{{Address: "cc@example.com", Name: "Some optional name"}},
+      // (old) Bcc: []string{"bcc@example.com"}
+      Bcc: []mail.Address{{Address: "bcc@example.com", Name: "Some optional name"}},
 
-    // (old) Bcc: []string{"bcc@example.com"}
-    Bcc: []mail.Address{{Address: "bcc@example.com", Name: "Some optional name"}},
-
-    ...
-  }
-  ```
+      ...
+    }
+    ```
 
 - **!** Refactored the Authentik integration as a more generic "OpenID Connect" provider (`oidc`) to support any OIDC provider (Okta, Keycloak, etc.).
   _If you've previously used Authentik, make sure to rename the provider key in your code to `oidc`._
@@ -343,11 +379,13 @@
 
 - Other minor Admin UI improvements.
 
+
 ## v0.12.3
 
 - Fixed "Toggle column" reactivity when navigating between collections ([#1836](https://github.com/pocketbase/pocketbase/pull/1836)).
 
 - Logged the current datetime on server start ([#1822](https://github.com/pocketbase/pocketbase/issues/1822)).
+
 
 ## v0.12.2
 
@@ -357,6 +395,7 @@
 
 - Auto close the multi-select dropdown if "Max select" is reached.
 
+
 ## v0.12.1
 
 - Fixed js error on empty relation save.
@@ -364,6 +403,7 @@
 - Fixed `overlay-active` css class not being removed on nested overlay panel close ([#1718](https://github.com/pocketbase/pocketbase/issues/1718)).
 
 - Added the collection name in the page title ([#1711](https://github.com/pocketbase/pocketbase/issues/1711)).
+
 
 ## v0.12.0
 
@@ -419,7 +459,6 @@
 - Refactored all `forms` Submit interceptors to use a generic data type as their payload.
 
 - Added several `store.Store` helpers:
-
   ```go
   store.Reset(newData map[string]T)
   store.Length() int
@@ -428,35 +467,33 @@
 
 - Added "tags" support for all Record and Model related event hooks.
 
-  The "tags" allow registering event handlers that will be called only on matching table name(s) or colleciton id(s)/name(s).
-  For example:
-
-  ```go
-  app.OnRecordBeforeCreateRequest("articles").Add(func(e *core.RecordCreateEvent) error {
-    // called only on "articles" record creation
-    log.Println(e.Record)
-    return nil
-  })
-  ```
-
-  For all those event hooks `*hook.Hook` was replaced with `*hooks.TaggedHook`, but the hook methods signatures are the same so it should behave as it was previously if no tags were specified.
+    The "tags" allow registering event handlers that will be called only on matching table name(s) or colleciton id(s)/name(s).
+    For example:
+    ```go
+    app.OnRecordBeforeCreateRequest("articles").Add(func(e *core.RecordCreateEvent) error {
+      // called only on "articles" record creation
+      log.Println(e.Record)
+      return nil
+    })
+    ```
+    For all those event hooks `*hook.Hook` was replaced with `*hooks.TaggedHook`, but the hook methods signatures are the same so it should behave as it was previously if no tags were specified.
 
 - **!** Fixed the `json` field **string** value normalization ([#1703](https://github.com/pocketbase/pocketbase/issues/1703)).
 
-  In order to support seamlessly both `application/json` and `multipart/form-data`
-  requests, the following normalization rules are applied if the `json` field is a
-  **plain string value**:
+    In order to support seamlessly both `application/json` and `multipart/form-data`
+    requests, the following normalization rules are applied if the `json` field is a
+    **plain string value**:
 
-  - "true" is converted to the json `true`
-  - "false" is converted to the json `false`
-  - "null" is converted to the json `null`
-  - "[1,2,3]" is converted to the json `[1,2,3]`
-  - "{\"a\":1,\"b\":2}" is converted to the json `{"a":1,"b":2}`
-  - numeric strings are converted to json number
-  - double quoted strings are left as they are (aka. without normalizations)
-  - any other string (empty string too) is double quoted
+    - "true" is converted to the json `true`
+    - "false" is converted to the json `false`
+    - "null" is converted to the json `null`
+    - "[1,2,3]" is converted to the json `[1,2,3]`
+    - "{\"a\":1,\"b\":2}" is converted to the json `{"a":1,"b":2}`
+    - numeric strings are converted to json number
+    - double quoted strings are left as they are (aka. without normalizations)
+    - any other string (empty string too) is double quoted
 
-  Additionally, the "Nonempty" `json` field constraint now checks for `null`, `[]`, `{}` and `""` (empty string).
+    Additionally, the "Nonempty" `json` field constraint now checks for `null`, `[]`, `{}` and `""` (empty string).
 
 - Added `aria-label` to some of the buttons in the Admin UI for better accessibility ([#1702](https://github.com/pocketbase/pocketbase/pull/1702); thanks @ndarilek).
 
@@ -464,9 +501,11 @@
 
 - Other minor improvements (more detailed API file upload errors, UI optimizations, docs improvements, etc.)
 
+
 ## v0.11.4
 
 - Fixed cascade delete for rel records with the same id as the main record ([#1689](https://github.com/pocketbase/pocketbase/issues/1689)).
+
 
 ## v0.11.3
 
@@ -478,6 +517,7 @@
 
   - Slow clients should no longer "block" the main action completion.
 
+
 ## v0.11.2
 
 - Fixed `fs.DeleteByPrefix()` hang on invalid S3 settings ([#1575](https://github.com/pocketbase/pocketbase/discussions/1575#discussioncomment-4661089)).
@@ -486,14 +526,15 @@
   _Currently the cascade files delete operation is treated as "non-critical" and in case of an error it is just logged during debug._
   _This will be improved in the near future with the planned async job queue implementation._
 
+
 ## v0.11.1
 
 - Unescaped path parameter values ([#1552](https://github.com/pocketbase/pocketbase/issues/1552)).
 
+
 ## v0.11.0
 
 - Added `+` and `-` body field modifiers for `number`, `files`, `select` and `relation` fields.
-
   ```js
   {
     // oldValue + 2
@@ -507,14 +548,12 @@
     "someFile-": "filename.png",
   }
   ```
-
   _Note1: `@request.data.someField` will contain the final resolved value._
 
   _Note2: The old index (`"field.0":null`) and filename (`"field.filename.png":null`) based suffixed syntax for deleting files is still supported._
 
 - ! Added support for multi-match/match-all request data and collection multi-valued fields (`select`, `relation`) conditions.
   If you want a "at least one of" type of condition, you can prefix the operator with `?`.
-
   ```js
   // for each someRelA.someRelB record require the "status" field to be "active"
   someRelA.someRelB.status = "active"
@@ -522,27 +561,23 @@
   // OR for "at least one of" condition
   someRelA.someRelB.status ?= "active"
   ```
-
   _**Note: Previously the behavior for multi-valued fields was as the "at least one of" type.
   The release comes with system db migration that will update your existing API rules (if needed) to preserve the compatibility.
   If you have multi-select or multi-relation filter checks in your client-side code and want to preserve the old behavior, you'll have to prefix with `?` your operators.**_
 
 - Added support for querying `@request.data.someRelField.*` relation fields.
-
   ```js
   // example submitted data: {"someRel": "REL_RECORD_ID"}
   @request.data.someRel.status = "active"
   ```
 
 - Added `:isset` modifier for the static request data fields.
-
   ```js
   // prevent changing the "role" field
   @request.data.role:isset = false
   ```
 
 - Added `:length` modifier for the arrayable request data and collection fields (`select`, `file`, `relation`).
-
   ```js
   // example submitted data: {"someSelectField": ["val1", "val2"]}
   @request.data.someSelectField:length = 2
@@ -552,7 +587,6 @@
   ```
 
 - Added `:each` modifier support for the multi-`select` request data and collection field.
-
   ```js
   // check if all selected rows has "pb_" prefix
   roles:each ~ 'pb_%'
@@ -590,9 +624,11 @@
 
 - Other minor improvements.
 
+
 ## v0.10.4
 
 - Fixed `Record.MergeExpand` panic when the main model expand map is not initialized ([#1365](https://github.com/pocketbase/pocketbase/issues/1365)).
+
 
 ## v0.10.3
 
@@ -602,14 +638,17 @@
 
 - Excluded `collectionId` and `collectionName` from the displayable relation props list ([1322](https://github.com/pocketbase/pocketbase/issues/1322); thanks @dhall2).
 
+
 ## v0.10.2
 
 - Fixed nested multiple expands with shared path ([#586](https://github.com/pocketbase/pocketbase/issues/586#issuecomment-1357784227)).
   A new helper method `models.Record.MergeExpand(map[string]any)` was also added to simplify the expand handling and unit testing.
 
+
 ## v0.10.1
 
 - Fixed nested transactions deadlock when authenticating with OAuth2 ([#1291](https://github.com/pocketbase/pocketbase/issues/1291)).
+
 
 ## v0.10.0
 
@@ -630,7 +669,6 @@
 - Refactored the `core.app.Bootstrap()` to be called before starting the cobra commands ([#1267](https://github.com/pocketbase/pocketbase/discussions/1267)).
 
 - ! Changed `pocketbase.NewWithConfig(config Config)` to `pocketbase.NewWithConfig(config *Config)` and added 4 new config settings:
-
   ```go
   DataMaxOpenConns int // default to core.DefaultDataMaxOpenConns
   DataMaxIdleConns int // default to core.DefaultDataMaxIdleConns
@@ -646,7 +684,6 @@
 
 - Added generic file resource struct that allows loading and uploading file content from
   different sources (at the moment multipart/form-data requests and from the local filesystem).
-
   ```
   filesystem.File{}
   filesystem.NewFileFromPath(path)
@@ -655,7 +692,6 @@
   ```
 
 - Refactored `forms.RecordUpsert` to allow more easily loading and removing files programmatically.
-
   ```
   forms.RecordUpsert.AddFiles(key, filesystem.File...) // add new filesystem.File to the form for upload
   forms.RecordUpsert.RemoveFiles(key, filenames...)     // marks the filenames for deletion
@@ -663,9 +699,11 @@
 
 - Trigger the `password` validators if any of the others password change fields is set.
 
+
 ## v0.9.2
 
 - Fixed field column name conflict on record deletion ([#1220](https://github.com/pocketbase/pocketbase/discussions/1220)).
+
 
 ## v0.9.1
 
@@ -681,6 +719,7 @@
 
 - Updated the GitHub goreleaser action to use go 1.19.4 since it comes with [some security fixes](https://github.com/golang/go/issues?q=milestone%3AGo1.19.4+label%3ACherryPickApproved).
 
+
 ## v0.9.0
 
 - Fixed concurrent multi-relation cascade update/delete ([#1138](https://github.com/pocketbase/pocketbase/issues/1138)).
@@ -694,7 +733,6 @@
 - Added `Record.OriginalCopy()` method that returns a new `Record` copy populated with the initially loaded record data (useful if you want to compare old and new field values).
 
 - Added new event hooks:
-
   ```go
   app.OnBeforeBootstrap()
   app.OnAfterBootstrap()
@@ -718,7 +756,6 @@
   ```
 
 - The original uploaded file name is now stored as metadata under the `original_filename` key. It could be accessed via:
-
   ```go
   fs, _ := app.NewFilesystem()
   defer fs.Close()
@@ -729,7 +766,6 @@
 
 - Added support for `Partial/Range` file requests ([#1125](https://github.com/pocketbase/pocketbase/issues/1125)).
   This is a minor breaking change if you are using `filesystem.Serve` (eg. as part of a custom `OnFileDownloadRequest` hook):
-
   ```go
   // old
   filesystem.Serve(res, e.ServedPath, e.ServedName)
@@ -744,7 +780,6 @@
 
   The `migrate` command is available by default for the prebuilt executable,
   but if you use PocketBase as framework you need register it manually:
-
   ```go
   migrationsDir := "" // default to "pb_migrations" (for js) and "migrations" (for go)
 
@@ -770,36 +805,30 @@
   Also note that the auto generated migrations are granural (in contrast to the `migrate collections` snapshot command)
   and allow multiple developers to do changes on the collections independently (even editing the same collection) miniziming the eventual merge conflicts.
   Here is a sample JS migration file that will be generated if you for example edit a single collection name:
-
   ```js
   // pb_migrations/1669663597_updated_posts_old.js
-  migrate(
-    (db) => {
-      // up
-      const dao = new Dao(db);
-      const collection = dao.findCollectionByNameOrId("lngf8rb3dqu86r3");
-      collection.name = "posts_new";
-      return dao.saveCollection(collection);
-    },
-    (db) => {
-      // down
-      const dao = new Dao(db);
-      const collection = dao.findCollectionByNameOrId("lngf8rb3dqu86r3");
-      collection.name = "posts_old";
-      return dao.saveCollection(collection);
-    }
-  );
+  migrate((db) => {
+    // up
+    const dao = new Dao(db)
+    const collection = dao.findCollectionByNameOrId("lngf8rb3dqu86r3")
+    collection.name = "posts_new"
+    return dao.saveCollection(collection)
+  }, (db) => {
+    // down
+    const dao = new Dao(db)
+    const collection = dao.findCollectionByNameOrId("lngf8rb3dqu86r3")
+    collection.name = "posts_old"
+    return dao.saveCollection(collection)
+  })
   ```
 
 - Added new `Dao` helpers to make it easier fetching and updating the app settings from a migration:
-
   ```go
   dao.FindSettings([optEncryptionKey])
   dao.SaveSettings(newSettings, [optEncryptionKey])
   ```
 
 - Moved `core.Settings` to `models/settings.Settings`:
-
   ```
   core.Settings{}           -> settings.Settings{}
   core.NewSettings()        -> settings.New()
@@ -812,7 +841,6 @@
   ```
 
 - Changed the `mailer.Mailer` interface (**minor breaking if you are sending custom emails**):
-
   ```go
   // Old:
   app.NewMailClient().Send(from, to, subject, html, attachments?)
@@ -831,10 +859,10 @@
     Text: "custom plain text version",
   })
   ```
-
   The new `*mailer.Message` struct is also now a member of the `MailerRecordEvent` and `MailerAdminEvent` events.
 
 - Other minor UI fixes and improvements
+
 
 ## v0.8.0
 
@@ -900,7 +928,6 @@ The upgrade command:
 - Changes all `user` type fields to `relation` and update the references to point to the new user ids.
 - Renames all `@collection.profiles.*`, `@request.user.*` and `@request.user.profile.*` filters to `@collection.users.*` and `@request.auth.*`.
 - Appends `2` to all **schema field names** and **api filter rules** that conflicts with the new system reserved ones:
-
   ```
   collectionId   => collectionId2
   collectionName => collectionName2
@@ -922,7 +949,6 @@ The upgrade command:
 Please check the individual SDK package changelog and apply the necessary changes in your code:
 
 - [**JavaScript SDK changelog**](https://github.com/pocketbase/js-sdk/blob/master/CHANGELOG.md)
-
   ```sh
   npm install pocketbase@latest --save
   ```
@@ -1112,7 +1138,6 @@ Please check the individual SDK package changelog and apply the necessary change
   </table>
 
 - To prevent confusion with the auth method responses, the following endpoints now returns 204 with empty body (previously 200 with token and auth model):
-
   ```
   POST /api/admins/confirm-password-reset
   POST /api/collections/:collection/confirm-password-reset
@@ -1325,7 +1350,6 @@ Please check the individual SDK package changelog and apply the necessary change
   </table>
 
 - Added new auth collection `models.Record` helpers:
-
   ```go
   func (m *Record) Username() string
   func (m *Record) SetUsername(username string) error
@@ -1348,7 +1372,6 @@ Please check the individual SDK package changelog and apply the necessary change
   ```
 
 - Added option to return serialized custom `models.Record` fields data:
-
   ```go
   func (m *Record) UnknownData() map[string]any
   func (m *Record) WithUnknownData(state bool)
@@ -1492,12 +1515,11 @@ Please check the individual SDK package changelog and apply the necessary change
   </table>
 
 - Marked as "Deprecated" and will be removed in v0.9+:
-
-  ```
-  core.Settings.EmailAuth{}
-  core.EmailAuthConfig{}
-  schema.FieldTypeUser
-  schema.UserOptions{}
-  ```
+    ```
+    core.Settings.EmailAuth{}
+    core.EmailAuthConfig{}
+    schema.FieldTypeUser
+    schema.UserOptions{}
+    ```
 
 - The second argument of `apis.StaticDirectoryHandler(fileSystem, enableIndexFallback)` now is used to enable/disable index.html forwarding on missing file (eg. in case of SPA).

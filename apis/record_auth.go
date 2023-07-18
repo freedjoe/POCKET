@@ -677,5 +677,5 @@ func (api *recordAuthApi) oauth2SubscriptionRedirect(c echo.Context) error {
 
 	client.Channel() <- msg
 
-	return c.Redirect(http.StatusTemporaryRedirect, "../admin/#/auth/oauth2-redirect")
+	return c.Redirect(http.StatusTemporaryRedirect, "../_/#/auth/oauth2-redirect")
 }

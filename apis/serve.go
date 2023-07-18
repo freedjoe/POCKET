@@ -117,7 +117,7 @@ func Serve(app core.App, options *ServeOptions) error {
 
 		regular := color.New()
 		regular.Printf(" ➜ REST API: %s\n", color.CyanString("%s://%s/api/", schema, serverConfig.Addr))
-		regular.Printf(" ➜ Admin UI: %s\n", color.CyanString("%s://%s/admin/", schema, serverConfig.Addr))
+		regular.Printf(" ➜ Admin UI: %s\n", color.CyanString("%s://%s/_/", schema, serverConfig.Addr))
 	}
 
 	// try to gracefully shutdown the server on app termination
