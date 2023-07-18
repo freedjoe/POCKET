@@ -160,7 +160,7 @@ func (api *fileApi) download(c echo.Context) error {
 	event.ServedPath = servedPath
 	event.ServedName = servedName
 
-	// clickjacking shouldn't be a concern when serving uploaded files,
+	// click jacking shouldn't be a concern when serving uploaded files,
 	// so it safe to unset the global X-Frame-Options to allow files embedding
 	// (note: it is out of the hook to allow users to customize the behavior)
 	c.Response().Header().Del("X-Frame-Options")

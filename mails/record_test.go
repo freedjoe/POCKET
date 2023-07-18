@@ -27,7 +27,7 @@ func TestSendRecordPasswordReset(t *testing.T) {
 	}
 
 	expectedParts := []string{
-		"http://localhost:8090/_/#/auth/confirm-password-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.",
+		"http://localhost:8090/admin/#/auth/confirm-password-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.",
 	}
 	for _, part := range expectedParts {
 		if !strings.Contains(testApp.TestMailer.LastMessage.HTML, part) {
@@ -52,7 +52,7 @@ func TestSendRecordVerification(t *testing.T) {
 	}
 
 	expectedParts := []string{
-		"http://localhost:8090/_/#/auth/confirm-verification/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.",
+		"http://localhost:8090/admin/#/auth/confirm-verification/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.",
 	}
 	for _, part := range expectedParts {
 		if !strings.Contains(testApp.TestMailer.LastMessage.HTML, part) {
@@ -77,7 +77,7 @@ func TestSendRecordChangeEmail(t *testing.T) {
 	}
 
 	expectedParts := []string{
-		"http://localhost:8090/_/#/auth/confirm-email-change/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.",
+		"http://localhost:8090/admin/#/auth/confirm-email-change/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.",
 	}
 	for _, part := range expectedParts {
 		if !strings.Contains(testApp.TestMailer.LastMessage.HTML, part) {

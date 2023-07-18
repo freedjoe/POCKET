@@ -15,11 +15,11 @@ import (
 	"github.com/labstack/echo/v5/middleware"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/tools/rest"
-	"github.com/pocketbase/pocketbase/ui"
+	"github.com/pocketbase/pocketbase/ui/admin"
 	"github.com/spf13/cast"
 )
 
-const trailedAdminPath = "/_/"
+const trailedAdminPath = "/admin/"
 
 // InitApi creates a configured echo instance with registered
 // system and app specific routes and middlewares.

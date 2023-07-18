@@ -46,7 +46,7 @@ func (m *Collection) TableName() string {
 
 // BaseFilesPath returns the storage dir path used by the collection.
 func (m *Collection) BaseFilesPath() string {
-	return m.Id
+	return m.Name
 }
 
 // IsBase checks if the current collection has "base" type.

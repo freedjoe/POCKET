@@ -513,7 +513,7 @@ func TestSchemaFieldInitOptions(t *testing.T) {
 		{
 			schema.SchemaField{Type: schema.FieldTypeFile},
 			false,
-			`{"system":false,"id":"","name":"","type":"file","required":false,"unique":false,"options":{"maxSelect":0,"maxSize":0,"mimeTypes":null,"thumbs":null,"protected":false}}`,
+			`{"system":false,"id":"","name":"","type":"file","required":false,"unique":false,"options":{"maxSelect":0,"maxSize":0,"mimeTypes":null,"thumbs":null,"path":null,"protected":false}}`,
 		},
 		{
 			schema.SchemaField{Type: schema.FieldTypeRelation},
