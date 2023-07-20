@@ -166,7 +166,7 @@ func (form *RecordUpsert) extractMultipartFormData(
 	data := map[string]any{}
 	filesToUpload := map[string][]*filesystem.File{}
 	arrayValueSupportTypes := schema.ArraybleFieldTypes()
-
+	fmt.Println("NOUI:", filesToUpload)
 	for fullKey, values := range r.PostForm {
 		key := fullKey
 		if keyPrefix != "" {

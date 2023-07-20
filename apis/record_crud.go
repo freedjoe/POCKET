@@ -172,6 +172,7 @@ func (api *recordApi) create(c echo.Context) error {
 		// available when accessing requestData.Data using just the field name
 		if requestData.HasModifierDataKeys() {
 			requestData.Data = testRecord.ReplaceModifers(requestData.Data)
+
 		}
 
 		testForm := forms.NewRecordUpsert(api.app, testRecord)
@@ -239,6 +240,7 @@ func (api *recordApi) create(c echo.Context) error {
 				}
 
 				return e.HttpContext.JSON(http.StatusOK, e.Record)
+
 			})
 		}
 	})
