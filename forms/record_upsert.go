@@ -166,7 +166,6 @@ func (form *RecordUpsert) extractMultipartFormData(
 	data := map[string]any{}
 	filesToUpload := map[string][]*filesystem.File{}
 	arrayValueSupportTypes := schema.ArraybleFieldTypes()
-	fmt.Println("NOUI:", filesToUpload)
 	for fullKey, values := range r.PostForm {
 		key := fullKey
 		if keyPrefix != "" {
@@ -814,7 +813,12 @@ func (form *RecordUpsert) processFilesToUpload() error {
 
 	for fieldKey := range form.filesToUpload {
 		for i, file := range form.filesToUpload[fieldKey] {
-			path := form.record.BaseFilesPath() + "/" + file.Name
+			field := form.record.Collection().Schema.GetFieldByName(fieldKey)
+			if field == nil || field.Type != schema.FieldTypeFile {
+				return errors.New("invalid field key")
+			}
+			//options := field.Options.(*schema.FileOptions)
+			path := form.record.BaseFilesPath() + "/" + field.Name + "/" + file.Name
 			if err := fs.UploadFile(file, path); err == nil {
 				// keep track of the already uploaded file
 				uploaded = append(uploaded, path)
@@ -858,11 +862,13 @@ func (form *RecordUpsert) deleteFilesByNamesList(filenames []string) ([]string, 
 	defer fs.Close()
 
 	var deleteErrors []error
-
 	for i := len(filenames) - 1; i >= 0; i-- {
 		filename := filenames[i]
-		path := form.record.BaseFilesPath() + "/" + filename
-
+		fileField := form.record.FindFileFieldByFile("1_apex_WYL.png")
+		if fileField == nil {
+			return filenames, fmt.Errorf("NOUI NOUI: %v", form.record.FindFileFieldByFile(filename))
+		}
+		path := form.record.BaseFilesPath() + filename
 		if err := fs.Delete(path); err == nil {
 			// remove the deleted file from the list
 			filenames = append(filenames[:i], filenames[i+1:]...)

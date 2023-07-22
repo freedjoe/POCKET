@@ -124,7 +124,7 @@ func (api *fileApi) download(c echo.Context) error {
 	}
 	defer fs.Close()
 
-	originalPath := baseFilesPath + "/" + filename
+	originalPath := baseFilesPath + "/" + fileField.Name + "/" + filename
 	servedPath := originalPath
 	servedName := filename
 
@@ -141,7 +141,7 @@ func (api *fileApi) download(c echo.Context) error {
 		if list.ExistInSlice(oAttrs.ContentType, imageContentTypes) {
 			// add thumb size as file suffix
 			servedName = thumbSize + "_" + filename
-			servedPath = baseFilesPath + "/thumbs_" + filename + "/" + servedName
+			servedPath = baseFilesPath + "/" + fileField.Name + "/thumbs_" + filename + "/" + servedName
 
 			// create a new thumb if it doesn exists
 			if exists, _ := fs.Exists(servedPath); !exists {

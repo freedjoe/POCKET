@@ -93,6 +93,21 @@
     <svelte:fragment slot="options">
         <div class="grid grid-sm">
             <div class="col-sm-12">
+                <Field class="form-field" name="schema.{key}.options.path" let:uniqueId>
+                    <label for={uniqueId}>
+                        <span class="txt">Path</span>
+                        <i
+                            class="ri-information-line link-hint"
+                            use:tooltip={{
+                                text: "Default Path is (/collection.Name/record.Id).",
+                                position: "top",
+                            }}
+                        />
+                    </label>
+                    <input type="text" id={uniqueId} placeholder="eg: /dir/subdir" bind:value={field.options.path} />
+                </Field>
+            </div>
+            <div class="col-sm-12">
                 <Field class="form-field" name="schema.{key}.options.mimeTypes" let:uniqueId>
                     <label for={uniqueId}>
                         <span class="txt">Allowed mime types</span>

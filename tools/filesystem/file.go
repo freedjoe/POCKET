@@ -43,7 +43,7 @@ func NewFileFromPath(path string) (*File, error) {
 	f.Reader = &PathReader{Path: path}
 	f.Size = info.Size()
 	f.OriginalName = info.Name()
-	f.Name = "Noui/" + normalizeName(f.Reader, f.OriginalName)
+	f.Name = normalizeName(f.Reader, f.OriginalName)
 
 	return f, nil
 }
@@ -60,7 +60,7 @@ func NewFileFromBytes(b []byte, name string) (*File, error) {
 	f.Reader = &BytesReader{b}
 	f.Size = int64(size)
 	f.OriginalName = name
-	f.Name = "Noui/" + normalizeName(f.Reader, f.OriginalName)
+	f.Name = normalizeName(f.Reader, f.OriginalName)
 
 	return f, nil
 }
@@ -72,7 +72,7 @@ func NewFileFromMultipart(mh *multipart.FileHeader) (*File, error) {
 	f.Reader = &MultipartReader{Header: mh}
 	f.Size = mh.Size
 	f.OriginalName = mh.Filename
-	f.Name = "Noui/" + normalizeName(f.Reader, f.OriginalName)
+	f.Name = normalizeName(f.Reader, f.OriginalName)
 
 	return f, nil
 }
