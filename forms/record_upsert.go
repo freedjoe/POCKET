@@ -266,7 +266,7 @@ func (form *RecordUpsert) AddFiles(key string, files ...*filesystem.File) error 
 
 	options, ok := field.Options.(*schema.FileOptions)
 	if !ok {
-		return errors.New("failed to initilize field options")
+		return errors.New("failed to initialize field options")
 	}
 
 	if len(files) == 0 {
@@ -278,7 +278,7 @@ func (form *RecordUpsert) AddFiles(key string, files ...*filesystem.File) error 
 	}
 
 	oldNames := list.ToUniqueStringSlice(form.data[key])
-
+	fmt.Println("nouiiiii OLDNAMES", oldNames)
 	if options.MaxSelect == 1 {
 		// mark previous file(s) for deletion before replacing
 		if len(oldNames) > 0 {
@@ -319,7 +319,7 @@ func (form *RecordUpsert) RemoveFiles(key string, toDelete ...string) error {
 	}
 
 	existing := list.ToUniqueStringSlice(form.data[key])
-
+	fmt.Println("nouiiiii exist", existing)
 	// mark all files for deletion
 	if len(toDelete) == 0 {
 		toDelete = make([]string, len(existing))
@@ -329,7 +329,7 @@ func (form *RecordUpsert) RemoveFiles(key string, toDelete ...string) error {
 	// check for existing files
 	for i := len(existing) - 1; i >= 0; i-- {
 		if list.ExistInSlice(existing[i], toDelete) {
-			form.filesToDelete = append(form.filesToDelete, existing[i])
+			form.filesToDelete = append(form.filesToDelete, key+"/"+existing[i])
 			existing = append(existing[:i], existing[i+1:]...)
 		}
 	}
@@ -443,7 +443,7 @@ func (form *RecordUpsert) LoadData(requestData map[string]any) error {
 			}
 		}
 
-		// allow file key reasignments for file names sorting
+		// allow file key reassignments for file names sorting
 		// (only if all submitted values already exists)
 		if len(submittedNames) > 0 && len(list.SubtractSlice(submittedNames, oldNames)) == 0 {
 			form.data[key] = submittedNames
@@ -788,7 +788,6 @@ func (form *RecordUpsert) Submit(interceptors ...InterceptorFunc[*models.Record]
 		if err := form.processFilesToDelete(); err != nil && form.app.IsDebug() {
 			log.Println(err)
 		}
-
 		return nil
 	}, interceptors...)
 }
@@ -813,12 +812,7 @@ func (form *RecordUpsert) processFilesToUpload() error {
 
 	for fieldKey := range form.filesToUpload {
 		for i, file := range form.filesToUpload[fieldKey] {
-			field := form.record.Collection().Schema.GetFieldByName(fieldKey)
-			if field == nil || field.Type != schema.FieldTypeFile {
-				return errors.New("invalid field key")
-			}
-			//options := field.Options.(*schema.FileOptions)
-			path := form.record.BaseFilesPath() + "/" + field.Name + "/" + file.Name
+			path := form.record.BaseFilesPath() + "/" + fieldKey + "/" + file.Name
 			if err := fs.UploadFile(file, path); err == nil {
 				// keep track of the already uploaded file
 				uploaded = append(uploaded, path)
@@ -864,17 +858,17 @@ func (form *RecordUpsert) deleteFilesByNamesList(filenames []string) ([]string, 
 	var deleteErrors []error
 	for i := len(filenames) - 1; i >= 0; i-- {
 		filename := filenames[i]
-		fileField := form.record.FindFileFieldByFile("1_apex_WYL.png")
+		/*fileField := form.record.FindFileFieldByFile("1_apex_WYL.png")
 		if fileField == nil {
-			return filenames, fmt.Errorf("NOUI NOUI: %v", form.record.FindFileFieldByFile(filename))
-		}
-		path := form.record.BaseFilesPath() + filename
+			return filenames, fmt.Errorf("NOUI NOUI: %v", form.record.BaseFilesPath()+"/"+filename)
+		}*/
+		path := form.record.BaseFilesPath() + "/" + filename
 		if err := fs.Delete(path); err == nil {
 			// remove the deleted file from the list
 			filenames = append(filenames[:i], filenames[i+1:]...)
 
 			// try to delete the related file thumbs (if any)
-			fs.DeletePrefix(form.record.BaseFilesPath() + "/thumbs_" + filename + "/")
+			fs.DeletePrefix(form.record.BaseFilesPath() + "/" + strings.Split(filename, "/")[0] + "/thumbs_" + strings.Split(filename, "/")[1])
 		} else {
 			// store the delete error
 			deleteErrors = append(deleteErrors, fmt.Errorf("file %d: %v", i, err))
