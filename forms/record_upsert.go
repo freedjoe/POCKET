@@ -278,7 +278,7 @@ func (form *RecordUpsert) AddFiles(key string, files ...*filesystem.File) error 
 	}
 
 	oldNames := list.ToUniqueStringSlice(form.data[key])
-	fmt.Println("nouiiiii OLDNAMES", oldNames)
+
 	if options.MaxSelect == 1 {
 		// mark previous file(s) for deletion before replacing
 		if len(oldNames) > 0 {
@@ -319,7 +319,6 @@ func (form *RecordUpsert) RemoveFiles(key string, toDelete ...string) error {
 	}
 
 	existing := list.ToUniqueStringSlice(form.data[key])
-	fmt.Println("nouiiiii exist", existing)
 	// mark all files for deletion
 	if len(toDelete) == 0 {
 		toDelete = make([]string, len(existing))
@@ -858,10 +857,6 @@ func (form *RecordUpsert) deleteFilesByNamesList(filenames []string) ([]string, 
 	var deleteErrors []error
 	for i := len(filenames) - 1; i >= 0; i-- {
 		filename := filenames[i]
-		/*fileField := form.record.FindFileFieldByFile("1_apex_WYL.png")
-		if fileField == nil {
-			return filenames, fmt.Errorf("NOUI NOUI: %v", form.record.BaseFilesPath()+"/"+filename)
-		}*/
 		path := form.record.BaseFilesPath() + "/" + filename
 		if err := fs.Delete(path); err == nil {
 			// remove the deleted file from the list

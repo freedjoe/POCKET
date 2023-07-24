@@ -5,6 +5,7 @@ import (
 	"errors"
 	"image"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -261,6 +262,7 @@ func (s *System) DeletePrefix(prefix string) []error {
 	iter := s.bucket.List(&blob.ListOptions{
 		Prefix: prefix,
 	})
+
 	for {
 		obj, err := iter.Next(s.ctx)
 		if err != nil {
@@ -269,11 +271,12 @@ func (s *System) DeletePrefix(prefix string) []error {
 			}
 			break
 		}
+		log.Println("nouii DELeTE01", obj)
 
 		if err := s.Delete(obj.Key); err != nil {
 			failed = append(failed, err)
 		} else {
-			dirsMap[filepath.Dir(obj.Key)] = struct{}{}
+			dirsMap[strings.ReplaceAll(filepath.Dir(obj.Key), "\\", "/")] = struct{}{}
 		}
 	}
 	// ---
@@ -282,6 +285,7 @@ func (s *System) DeletePrefix(prefix string) []error {
 	// (this operation usually is optional and there is no need to strictly check the result)
 	// ---
 	// fill dirs slice
+
 	dirs := make([]string, 0, len(dirsMap))
 	for d := range dirsMap {
 		dirs = append(dirs, d)
@@ -293,6 +297,7 @@ func (s *System) DeletePrefix(prefix string) []error {
 	})
 
 	// delete dirs
+
 	for _, d := range dirs {
 		if d != "" {
 			s.Delete(d)
