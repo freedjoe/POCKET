@@ -392,7 +392,12 @@ func (m *Record) UnmarshalJSONField(key string, result any) error {
 
 // BaseFilesPath returns the storage dir path used by the record.
 func (m *Record) BaseFilesPath() string {
-	return fmt.Sprintf("%s/%s", m.Collection().BaseFilesPath(), m.Id)
+	if err := m.Collection().Schema.GetFieldByName("path"); err == nil {
+		return fmt.Sprintf("%s/%s", m.Collection().BaseFilesPath(), m.Id)
+	} else {
+		return fmt.Sprint(m.data.Get("path"))
+	}
+
 }
 
 // FindFileFieldByFile returns the first file type field for which
